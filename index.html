@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <title>RUDNY STORE</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 22px;
+      background: #111;
+      color: #fff;
+      font: 16px Arial, sans-serif;
+    }
+    header { padding: 20px 0; }
+    h1 { letter-spacing: 4px; margin-bottom: 8px; }
+    .sub { color: #aaa; }
+    .item {
+      background: #202020;
+      border: 1px solid #333;
+      padding: 17px;
+      border-radius: 14px;
+      margin: 15px 0;
+    }
+    .item h3 { margin: 0 0 10px; }
+    .price { font-size: 20px; font-weight: bold; }
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 9px;
+      margin-top: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .add { background: #fff; color: #111; }
+    .order { background: #777; color: #fff; margin-top: 20px; }
+    #cart { color: #ccc; margin-top: 18px; }
+    footer { color: #777; font-size: 12px; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RUDNY STORE</h1>
+    <p class="sub">Уличная одежда · Рудный, Казахстан</p>
+  </header>
+
+  <h2>КАТАЛОГ</h2>
+  <div id="catalog"></div>
+  <p id="cart">Корзина: 0 товаров</p>
+  <button class="order" onclick="sendOrder()">Оформить заказ</button>
+
+  <footer>RUDNY STORE · RUDNY, KZ</footer>
+
+  <script>
+    const products = [
+      { name: "Худи Basic", price: 8000 },
+      { name: "Футболка Oversize", price: 4000 },
+      { name: "Кепка Black", price: 3500 }
+    ];
+
+    const cart = [];
+    const catalog = document.getElementById("catalog");
+
+    products.forEach((p, i) => {
+      const item = document.createElement("div");
+      item.className = "item";
+
+      const name = document.createElement("h3");
+      name.textContent = p.name;
+
+      const price = document.createElement("p");
+      price.className = "price";
+      price.textContent = p.price.toLocaleString("ru-RU") + " ₸";
+
+      const button = document.createElement("button");
+      button.className = "add";
+      button.textContent = "Добавить в корзину";
+      button.onclick = () => {
+        cart.push(i);
+        updateCart();
+      };
+
+      item.append(name, price, button);
+      catalog.appendChild(item);
+    });
+
+    function updateCart() {
+      document.getElementById("cart").textContent =
+        "Корзина: " + cart.length + " товаров";
+    }
+
+    function sendOrder() {
+      if (!cart.length) {
+        alert("Сначала добавь товар в корзину!");
+        return;
+      }
+
+      const lines = cart.map(i => {
+        return products[i].name + " — " +
+          products[i].price.toLocaleString("ru-RU") + " ₸";
+      });
+
+      const total = cart.reduce((sum, i) => sum + products[i].price, 0);
+      const message = "Здравствуйте! Хочу заказать:\n" +
+        lines.join("\n") + "\nИтого: " +
+        total.toLocaleString("ru-RU") + " ₸";
+
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.showAlert(
+          message + "\n\nЭто демоверсия: заказ ещё не отправлен продавцу."
+        );
+      } else {
+        alert(message + "\n\nДемо: заказ продавцу не отправлен.");
+      }
+    }
+
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  </script>
+</body>
+</html>
