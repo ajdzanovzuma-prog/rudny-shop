@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUDNY STORE</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body{background:#111;color:white;font:16px Arial;padding:20px}
+h1{letter-spacing:3px}
+.item{background:#222;padding:16px;border-radius:12px;margin:15px 0}
+button{width:100%;padding:14px;border:0;border-radius:9px;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>RUDNY STORE</h1>
+<p>Уличная одежда в Рудном</p>
+<div id="catalog"></div>
+<button onclick="sendOrder()">Оформить заказ</button>
+<script>
+const products=[
+ {name:"Худи Basic",price:8000},
+ {name:"Футболка Oversize",price:4000},
+ {name:"Кепка Black",price:3500}
+];
+const cart=[];
+const catalog=document.getElementById("catalog");
+products.forEach((p,i)=>{
+ catalog.innerHTML+=`
+ <div class="item">
+ <h3>${p.name}</h3>
+ <p>${p.price.toLocaleString("ru-RU")} ₸</p>
+ <button onclick="cart.push(${i});alert('Добавлено в корзину')">
+ Добавить в корзину
+ </button></div>`;
+});
+function sendOrder(){
+ if(!cart.length){alert("Корзина пуста");return;}
+ const order=cart.map(i=>products[i].name).join(", ");
+ const text="Здравствуйте! Хочу заказать: "+order;
+ if(window.Telegram?.WebApp){
+   Telegram.WebApp.showAlert(text);
+ }else{alert(text);}
+}
+Telegram.WebApp?.ready();
+</script>
+</body>
+</html>
