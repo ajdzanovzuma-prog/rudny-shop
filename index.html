@@ -4,126 +4,868 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111111">
-  <title>RUDNY STORE</title>
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="RUDNY STORE — streetwear и Y2K стиль в Рудном.">
+  <title>RUDNY STORE — Streetwear</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #141414;
+      --line: #292929;
+      --muted: #999;
+      --white: #f5f5f5;
+    }
+
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      padding: 22px;
-      background: #111;
-      color: #fff;
-      font: 16px Arial, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
     }
-    header { padding: 20px 0; }
-    h1 { letter-spacing: 4px; margin-bottom: 8px; }
-    .sub { color: #aaa; }
-    .item {
-      background: #202020;
-      border: 1px solid #333;
-      padding: 17px;
-      border-radius: 14px;
-      margin: 15px 0;
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(1120px, 100% - 36px);
+      margin: auto;
     }
-    .item h3 { margin: 0 0 10px; }
-    .price { font-size: 20px; font-weight: bold; }
-    button {
-      width: 100%;
-      padding: 14px;
+
+    .topline {
+      border-bottom: 1px solid var(--line);
+      padding: 10px;
+      text-align: center;
+      color: #bbb;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .logo span { color: #777; }
+
+    .nav-link {
+      color: #bbb;
+      font-size: 13px;
+    }
+
+    .cart-button {
+      background: white;
+      color: black;
       border: 0;
-      border-radius: 9px;
-      margin-top: 12px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
+      border-radius: 4px;
+      padding: 11px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
     }
-    .add { background: #fff; color: #111; }
-    .order { background: #777; color: #fff; margin-top: 20px; }
-    #cart { color: #ccc; margin-top: 18px; }
-    footer { color: #777; font-size: 12px; margin-top: 30px; }
+
+    .hero {
+      padding: 65px 0 55px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: #aaa;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 18px 0;
+      font-size: clamp(43px, 8vw, 88px);
+      line-height: .91;
+      letter-spacing: -4px;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      color: transparent;
+      -webkit-text-stroke: 1px #888;
+    }
+
+    .hero p {
+      max-width: 370px;
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .primary {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 15px 22px;
+      background: white;
+      color: black;
+      border: 0;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .hero-art {
+      min-height: 300px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(ellipse at 50% 40%, #393939 0, #181818 35%, #0d0d0d 75%);
+      border: 1px solid #303030;
+    }
+
+    .hero-art::before {
+      content: "RS";
+      position: absolute;
+      font-size: clamp(130px, 22vw, 230px);
+      font-weight: 900;
+      letter-spacing: -18px;
+      color: #ffffff08;
+    }
+
+    .orbit {
+      position: absolute;
+      width: 210px;
+      height: 270px;
+      border: 1px solid #777;
+      border-radius: 50%;
+      transform: rotate(-30deg);
+    }
+
+    .orbit.two {
+      width: 270px;
+      height: 190px;
+      transform: rotate(40deg);
+      border-color: #444;
+    }
+
+    .art-label {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #ccc;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(25px, 5vw, 38px);
+      letter-spacing: -1px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      margin: 22px 0;
+      flex-wrap: wrap;
+    }
+
+    .search {
+      min-width: 150px;
+      flex: 1;
+      background: #141414;
+      color: white;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 13px;
+      outline: none;
+    }
+
+    .search:focus { border-color: #888; }
+
+    .filters {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .filter {
+      padding: 12px 14px;
+      color: #bbb;
+      background: #141414;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .filter.active {
+      background: white;
+      color: black;
+      border-color: white;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .product {
+      overflow: hidden;
+      background: #111;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+    }
+
+    .product-art {
+      min-height: 190px;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse, #303030, #171717 55%, #101010);
+    }
+
+    .product-art::before {
+      content: "";
+      position: absolute;
+      width: 62%;
+      height: 65%;
+      border: 1px solid #ffffff12;
+      border-radius: 50%;
+      transform: rotate(-35deg);
+    }
+
+    .art-symbol {
+      z-index: 1;
+      font-size: clamp(46px, 8vw, 82px);
+      font-weight: 900;
+      letter-spacing: -6px;
+      color: #eee;
+      text-shadow: 0 0 28px #ffffff25;
+    }
+
+    .product:nth-child(3n + 2) .product-art {
+      background: radial-gradient(ellipse, #3b3b3b, #1b1b1b 60%, #101010);
+    }
+
+    .product:nth-child(3n) .product-art {
+      background: radial-gradient(ellipse, #252525, #111 70%);
+    }
+
+    .art-caption {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      color: #aaa;
+      font-size: 9px;
+      letter-spacing: 2px;
+    }
+
+    .product-info { padding: 15px; }
+
+    .tag {
+      color: #999;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .product h3 {
+      font-size: 15px;
+      margin: 9px 0;
+    }
+
+    .description {
+      color: #888;
+      font-size: 11px;
+      line-height: 1.6;
+      min-height: 18px;
+    }
+
+    .price {
+      margin: 14px 0;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .size-select {
+      width: 100%;
+      background: #171717;
+      color: white;
+      border: 1px solid #333;
+      border-radius: 3px;
+      padding: 11px;
+      margin-bottom: 9px;
+    }
+
+    .add {
+      width: 100%;
+      padding: 13px 8px;
+      background: white;
+      color: black;
+      border: 0;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .add:active, .primary:active { opacity: .7; }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 35px 10px;
+      color: #888;
+      text-align: center;
+    }
+
+    .about {
+      margin: 75px 0 50px;
+      padding: 28px;
+      background: #111;
+      border: 1px solid var(--line);
+    }
+
+    .about h2 {
+      margin-top: 0;
+      font-size: 26px;
+    }
+
+    .about p {
+      max-width: 650px;
+      color: #aaa;
+      line-height: 1.9;
+      font-size: 13px;
+    }
+
+    .cart-section {
+      margin: 45px 0 70px;
+      padding: 24px;
+      border: 1px solid #333;
+      background: #101010;
+      scroll-margin-top: 20px;
+    }
+
+    .cart-section h2 { margin-top: 0; }
+
+    .cart-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 0;
+      border-bottom: 1px solid #292929;
+      font-size: 13px;
+    }
+
+    .cart-row small {
+      display: block;
+      margin-top: 6px;
+      color: #888;
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .qty button {
+      width: 28px;
+      height: 28px;
+      background: #222;
+      color: white;
+      border: 1px solid #444;
+    }
+
+    .remove {
+      display: block;
+      margin-top: 5px;
+      background: none;
+      border: 0;
+      color: #aaa;
+      font-size: 10px;
+      text-decoration: underline;
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 20px 0;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .checkout {
+      width: 100%;
+      padding: 15px;
+      background: white;
+      color: black;
+      border: 0;
+      font-weight: 900;
+    }
+
+    .note {
+      color: #777;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 25px 0 35px;
+      color: #777;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    @media (max-width: 650px) {
+      .wrap { width: calc(100% - 24px); }
+      nav { height: 65px; }
+      .logo { font-size: 17px; letter-spacing: 1px; }
+      .nav-link { display: none; }
+      .cart-button { padding: 10px; font-size: 11px; }
+      .hero {
+        padding: 40px 0;
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      .hero h1 { letter-spacing: -2px; }
+      .hero-art { min-height: 210px; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+      .product-art { min-height: 135px; }
+      .product-info { padding: 10px; }
+      .product h3 { font-size: 13px; }
+      .price { font-size: 16px; }
+      .description { font-size: 10px; }
+      .filter { padding: 10px; }
+      .about { padding: 20px; margin-top: 50px; }
+      .cart-section { padding: 15px; }
+    }
+
+    @media (max-width: 350px) {
+      .grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>RUDNY STORE</h1>
-    <p class="sub">Уличная одежда · Рудный, Казахстан</p>
-  </header>
+  <div class="topline">RUDNY, KAZAKHSTAN · STREETWEAR CULTURE</div>
 
-  <h2>КАТАЛОГ</h2>
-  <div id="catalog"></div>
-  <p id="cart">Корзина: 0 товаров</p>
-  <button class="order" onclick="sendOrder()">Оформить заказ</button>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#">RUDNY<span>.</span>STORE</a>
+      <a class="nav-link" href="#catalog">КАТАЛОГ</a>
+      <a class="nav-link" href="#about">О БРЕНДЕ</a>
+      <button class="cart-button" onclick="goCart()">
+        КОРЗИНА <span id="cartCount">0</span>
+      </button>
+    </nav>
 
-  <footer>RUDNY STORE · RUDNY, KZ</footer>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Independent streetwear · Rudny</div>
+        <h1>YOUR<br>STYLE.<br><span>YOUR RULES.</span></h1>
+        <p>
+          Уличный стиль без лишнего шума.
+          Исследуй свою эстетику вместе с RUDNY STORE.
+        </p>
+        <a class="primary" href="#catalog">СМОТРЕТЬ КАТАЛОГ ↘</a>
+      </div>
+      <div class="hero-art" aria-label="RUDNY STORE graphic">
+        <div class="orbit"></div>
+        <div class="orbit two"></div>
+        <div class="art-label">RS — EST. RUDNY</div>
+      </div>
+    </section>
+
+    <section id="catalog">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Find your fit</div>
+          <h2>КАТАЛОГ<span style="color:#666">.</span></h2>
+        </div>
+        <p id="resultCount">3 позиции</p>
+      </div>
+
+      <div class="toolbar">
+        <input id="search" class="search" type="search"
+          placeholder="Найти товар..." aria-label="Поиск товаров">
+        <div class="filters">
+          <button class="filter active" data-category="all">ВСЁ</button>
+          <button class="filter" data-category="tops">ОДЕЖДА</button>
+          <button class="filter" data-category="accessories">АКСЕССУАРЫ</button>
+        </div>
+      </div>
+
+      <div id="catalogGrid" class="grid"></div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="eyebrow">Who we are</div>
+      <h2>СВОЙ СТИЛЬ.<br>СВОЙ ГОРОД.</h2>
+      <p>
+        RUDNY STORE — проект о streetwear-культуре и самовыражении.
+        Мы создаём пространство для тех, кто выбирает собственный стиль.
+        Рудный, Казахстан.
+      </p>
+      <p>Новые модели и собственные принты — в разработке.</p>
+    </section>
+
+    <section id="cart" class="cart-section">
+      <div class="eyebrow">Your selection</div>
+      <h2>ТВОЯ КОРЗИНА</h2>
+      <div id="cartItems"></div>
+      <div class="total">
+        <span>ИТОГО</span>
+        <span id="total">0 ₸</span>
+      </div>
+      <button class="checkout" onclick="checkout()">ПРОДОЛЖИТЬ ЗАКАЗ ↗</button>
+      <p class="note">
+        Демо-каталог: наличие товаров и цены необходимо подтвердить.
+        Кнопка пока не отправляет заказ продавцу.
+      </p>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <span>RUDNY STORE © 2026</span>
+        <span>RUDNY, KAZAKHSTAN</span>
+      </div>
+    </footer>
+  </div>
 
   <script>
     const products = [
-      { name: "Худи Basic", price: 8000 },
-      { name: "Футболка Oversize", price: 4000 },
-      { name: "Кепка Black", price: 3500 }
+      {
+        id: 1,
+        name: "Худи Basic",
+        price: 8000,
+        category: "tops",
+        tag: "01 / ESSENTIAL",
+        symbol: "RS",
+        description: "Базовая модель · цвет уточняется",
+        sizes: ["S", "M", "L", "XL"]
+      },
+      {
+        id: 2,
+        name: "Футболка Oversize",
+        price: 4000,
+        category: "tops",
+        tag: "02 / DAILY",
+        symbol: "★",
+        description: "Свободный крой · цвет уточняется",
+        sizes: ["S", "M", "L", "XL"]
+      },
+      {
+        id: 3,
+        name: "Кепка Black",
+        price: 3500,
+        category: "accessories",
+        tag: "03 / ACCESSORY",
+        symbol: "R",
+        description: "Минималистичный аксессуар",
+        sizes: ["One size"]
+      }
     ];
 
-    const cart = [];
-    const catalog = document.getElementById("catalog");
+    let activeCategory = "all";
+    let cart = [];
 
-    products.forEach((p, i) => {
-      const item = document.createElement("div");
-      item.className = "item";
+    const money = n =>
+      n.toLocaleString("ru-RU") + " ₸";
 
-      const name = document.createElement("h3");
-      name.textContent = p.name;
+    function renderProducts() {
+      const query = document.getElementById("search").value
+        .trim().toLowerCase();
 
-      const price = document.createElement("p");
-      price.className = "price";
-      price.textContent = p.price.toLocaleString("ru-RU") + " ₸";
+      const visible = products.filter(p => {
+        const matchesCategory =
+          activeCategory === "all" ||
+          p.category === activeCategory;
+        const matchesSearch =
+          p.name.toLowerCase().includes(query);
+        return matchesCategory && matchesSearch;
+      });
 
-      const button = document.createElement("button");
-      button.className = "add";
-      button.textContent = "Добавить в корзину";
-      button.onclick = () => {
-        cart.push(i);
-        updateCart();
-      };
+      document.getElementById("resultCount").textContent =
+        visible.length + " позиций";
 
-      item.append(name, price, button);
-      catalog.appendChild(item);
-    });
+      const grid = document.getElementById("catalogGrid");
+      grid.replaceChildren();
 
-    function updateCart() {
-      document.getElementById("cart").textContent =
-        "Корзина: " + cart.length + " товаров";
-    }
-
-    function sendOrder() {
-      if (!cart.length) {
-        alert("Сначала добавь товар в корзину!");
+      if (!visible.length) {
+        grid.innerHTML =
+          '<div class="empty">Ничего не найдено. Попробуй другой запрос.</div>';
         return;
       }
 
-      const lines = cart.map(i => {
-        return products[i].name + " — " +
-          products[i].price.toLocaleString("ru-RU") + " ₸";
-      });
+      visible.forEach(p => {
+        const card = document.createElement("article");
+        card.className = "product";
 
-      const total = cart.reduce((sum, i) => sum + products[i].price, 0);
-      const message = "Здравствуйте! Хочу заказать:\n" +
-        lines.join("\n") + "\nИтого: " +
-        total.toLocaleString("ru-RU") + " ₸";
+        const art = document.createElement("div");
+        art.className = "product-art";
+
+        const symbol = document.createElement("span");
+        symbol.className = "art-symbol";
+        symbol.textContent = p.symbol;
+
+        const caption = document.createElement("span");
+        caption.className = "art-caption";
+        caption.textContent = "RUDNY STORE";
+
+        art.append(symbol, caption);
+
+        const info = document.createElement("div");
+        info.className = "product-info";
+
+        const tag = document.createElement("div");
+        tag.className = "tag";
+        tag.textContent = p.tag;
+
+        const name = document.createElement("h3");
+        name.textContent = p.name;
+
+        const desc = document.createElement("div");
+        desc.className = "description";
+        desc.textContent = p.description;
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = money(p.price);
+
+        const select = document.createElement("select");
+        select.className = "size-select";
+        select.setAttribute("aria-label", "Размер: " + p.name);
+
+        p.sizes.forEach(size => {
+          const option = document.createElement("option");
+          option.value = size;
+          option.textContent =
+            size === "One size" ? "Размер: единый" : "Размер: " + size;
+          select.appendChild(option);
+        });
+
+        const add = document.createElement("button");
+        add.className = "add";
+        add.textContent = "＋ ДОБАВИТЬ В КОРЗИНУ";
+        add.onclick = () => {
+          addToCart(p.id, select.value);
+        };
+
+        info.append(tag, name, desc, price, select, add);
+        card.append(art, info);
+        grid.appendChild(card);
+      });
+    }
+
+    function addToCart(id, size) {
+      const product = products.find(p => p.id === id);
+      const existing = cart.find(
+        item => item.id === id && item.size === size
+      );
+
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ id, size, qty: 1 });
+      }
+
+      renderCart();
 
       if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showAlert(
-          message + "\n\nЭто демоверсия: заказ ещё не отправлен продавцу."
-        );
-      } else {
-        alert(message + "\n\nДемо: заказ продавцу не отправлен.");
+        window.Telegram.WebApp.HapticFeedback?.impactOccurred("light");
       }
     }
 
-    if (window.Telegram && window.Telegram.WebApp) {
+    function changeQty(id, size, delta) {
+      const item = cart.find(
+        i => i.id === id && i.size === size
+      );
+      if (!item) return;
+
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(
+          i => !(i.id === id && i.size === size)
+        );
+      }
+      renderCart();
+    }
+
+    function removeItem(id, size) {
+      cart = cart.filter(
+        i => !(i.id === id && i.size === size)
+      );
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById("cartItems");
+      container.replaceChildren();
+
+      const count = cart.reduce((sum, i) => sum + i.qty, 0);
+      const total = cart.reduce((sum, i) => {
+        const product = products.find(p => p.id === i.id);
+        return sum + product.price * i.qty;
+      }, 0);
+
+      document.getElementById("cartCount").textContent = count;
+      document.getElementById("total").textContent = money(total);
+
+      if (!cart.length) {
+        const empty = document.createElement("p");
+        empty.className = "note";
+        empty.textContent = "Корзина пока пуста. Самое время выбрать что-нибудь.";
+        container.appendChild(empty);
+        return;
+      }
+
+      cart.forEach(item => {
+        const p = products.find(product => product.id === item.id);
+        const row = document.createElement("div");
+        row.className = "cart-row";
+
+        const details = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = p.name;
+
+        const meta = document.createElement("small");
+        meta.textContent = "Размер: " + item.size + " · " + money(p.price);
+
+        const remove = document.createElement("button");
+        remove.className = "remove";
+        remove.textContent = "Удалить";
+        remove.onclick = () => removeItem(item.id, item.size);
+
+        details.append(title, meta, remove);
+
+        const controls = document.createElement("div");
+        controls.className = "qty";
+
+        const minus = document.createElement("button");
+        minus.textContent = "−";
+        minus.setAttribute("aria-label", "Уменьшить количество");
+        minus.onclick = () => changeQty(item.id, item.size, -1);
+
+        const quantity = document.createElement("span");
+        quantity.textContent = item.qty;
+
+        const plus = document.createElement("button");
+        plus.textContent = "+";
+        plus.setAttribute("aria-label", "Увеличить количество");
+        plus.onclick = () => changeQty(item.id, item.size, 1);
+
+        controls.append(minus, quantity, plus);
+        row.append(details, controls);
+        container.appendChild(row);
+      });
+    }
+
+    function goCart() {
+      document.getElementById("cart").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    function checkout() {
+      if (!cart.length) {
+        alert("Корзина пуста — сначала выбери товар.");
+        return;
+      }
+
+      const lines = cart.map(item => {
+        const p = products.find(product => product.id === item.id);
+        return `${p.name} / ${item.size} × ${item.qty} — ${
+          money(p.price * item.qty)
+        }`;
+      });
+
+      const total = cart.reduce((sum, item) => {
+        const p = products.find(product => product.id === item.id);
+        return sum + p.price * item.qty;
+      }, 0);
+
+      const message =
+        "RUDNY STORE — ДЕМО ЗАКАЗ\n\n" +
+        lines.join("\n") +
+        "\n\nИтого: " + money(total) +
+        "\n\nЗаказ не отправлен продавцу. Наличие и цены требуют подтверждения.";
+
+      if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.showAlert(message);
+      } else {
+        alert(message);
+      }
+    }
+
+    document.getElementById("search").addEventListener(
+      "input", renderProducts
+    );
+
+    document.querySelectorAll(".filter").forEach(button => {
+      button.addEventListener("click", () => {
+        activeCategory = button.dataset.category;
+
+        document.querySelectorAll(".filter").forEach(b => {
+          b.classList.toggle("active", b === button);
+        });
+
+        renderProducts();
+      });
+    });
+
+    if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
+      window.Telegram.WebApp.setHeaderColor("#0a0a0a");
+      window.Telegram.WebApp.setBackgroundColor("#0a0a0a");
     }
+
+    renderProducts();
+    renderCart();
   </script>
 </body>
 </html>
